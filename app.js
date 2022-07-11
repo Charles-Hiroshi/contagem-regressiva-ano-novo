@@ -11,6 +11,15 @@ const newYearTime = new Date(`January 01 ${nextYear} 00:00:00`)
 
 nextYearContainer.textContent = nextYear
 
+const getTimeUnit = unit => (unit < 10 ? '0' + unit : unit)
+
+const insertCountdownValues = ({ days, hours, minutes, seconds }) => {
+  secondsContainer.textContent = getTimeUnit(seconds)
+  minutesContainer.textContent = getTimeUnit(minutes)
+  hoursContainer.textContent = getTimeUnit(hours)
+  daysContainer.textContent = getTimeUnit(days)
+}
+
 const updateCountDown = () => {
   const currentTime = new Date()
   const difference = newYearTime - currentTime
@@ -19,15 +28,14 @@ const updateCountDown = () => {
   const minutes = Math.floor(difference / 1000 / 60) % 60
   const seconds = Math.floor(difference / 1000) % 60
 
-  secondsContainer.textContent = seconds < 10 ? '0' + seconds : seconds
-  minutesContainer.textContent = minutes < 10 ? '0' + minutes : minutes
-  hoursContainer.textContent = hours < 10 ? '0' + hours : hours
-  daysContainer.textContent = days < 10 ? '0' + days : days
+  insertCountdownValues({ days, hours, minutes, seconds })
 }
 
-setTimeout(() => {
+const handleCountdownDisplay = () => {
   spinnerLoading.remove()
   countDownContainer.style.display = 'flex'
-}, 1000)
+}
+
+setTimeout(handleCountdownDisplay, 1000)
 
 setInterval(updateCountDown, 1000)
